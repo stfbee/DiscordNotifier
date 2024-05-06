@@ -15,6 +15,8 @@ public class ChannelsStateManager(
 {
     private long ChatId => notifierOptions.Value.TelegramTargetId;
 
+    private int? ThreadId => notifierOptions.Value.TelegramThreadId;
+
     public async Task UpdateChannelInfo(SocketVoiceChannel voiceChannel)
     {
         var channelId = voiceChannel.Id;
@@ -69,7 +71,7 @@ public class ChannelsStateManager(
 
         async Task SendMessage()
         {
-            var message = await botClient.SendTextMessageAsync(ChatId, stateMessage, parseMode: ParseMode.Html);
+            var message = await botClient.SendTextMessageAsync(ChatId, stateMessage, parseMode: ParseMode.Html, messageThreadId: ThreadId);
 
             await messagesDataStorage.SetChannelStateMessage(channelId, message.MessageId);
             await botClient.PinChatMessageAsync(ChatId, message.MessageId);
