@@ -17,6 +17,8 @@ public class ChannelsStateManager(
 
     private int? ThreadId => notifierOptions.Value.TelegramThreadId;
 
+    private bool NeedToPinMessage => notifierOptions.Value.NeedToPinMessage;
+
     public async Task UpdateChannelInfo(SocketVoiceChannel voiceChannel)
     {
         var channelId = voiceChannel.Id;
@@ -74,7 +76,10 @@ public class ChannelsStateManager(
             var message = await botClient.SendTextMessageAsync(ChatId, stateMessage, parseMode: ParseMode.Html, messageThreadId: ThreadId);
 
             await messagesDataStorage.SetChannelStateMessage(channelId, message.MessageId);
-            await botClient.PinChatMessageAsync(ChatId, message.MessageId);
+            if (NeedToPinMessage)
+            {
+                await botClient.PinChatMessageAsync(ChatId, message.MessageId);
+            }
         }
     }
 
