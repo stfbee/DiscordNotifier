@@ -47,7 +47,7 @@ public class EventManager(
         {
             await timingsManager.SetLastStreamingTime(user.Id, DateTime.Now);
 
-            await telegramBotClient.SendTextMessageAsync(
+            await telegramBotClient.SendMessage(
                 ChatId,
                 $"<b>{user.Username}</b> started streaming inside <b>{voiceChannel.Name}</b>",
                 parseMode: ParseMode.Html
