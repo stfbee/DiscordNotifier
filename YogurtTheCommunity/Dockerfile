@@ -2,9 +2,9 @@
 WORKDIR /YogurtTheCommunity
 
 COPY . ./
-RUN dotnet restore
-RUN dotnet build -c Release -o build
-RUN dotnet publish -c Release -o out /p:UseAppHost=false
+RUN dotnet restore YogurtTheCommunity.csproj
+RUN dotnet build YogurtTheCommunity.csproj -c Release -o build
+RUN dotnet publish YogurtTheCommunity.csproj -c Release -o out /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /YogurtTheCommunity
