@@ -12,6 +12,7 @@ public class EventManager(
     ITelegramBotClient telegramBotClient)
 {
     private long ChatId => notifierOptions.Value.TelegramTargetId;
+    private int? ThreadId => notifierOptions.Value.TelegramThreadId;
 
     public async Task LeftChannel(SocketUser user, SocketVoiceChannel voiceChannel)
     {
@@ -50,7 +51,8 @@ public class EventManager(
             await telegramBotClient.SendMessage(
                 ChatId,
                 $"<b>{user.Username}</b> started streaming inside <b>{voiceChannel.Name}</b>",
-                parseMode: ParseMode.Html
+                parseMode: ParseMode.Html,
+                messageThreadId: ThreadId
             );
         }
     }
